@@ -1,12 +1,12 @@
 
 import {Container} from 'react-bootstrap'
 import Formulario from './components/Formulario'
-import { categoriasProvider } from './context/CategoriasProvider'
+import { CategoriasProvider } from './context/CategoriasProvider'
 function App() {
   
 
   return (
-   <categoriasProvider>
+   <CategoriasProvider>
     <header className="py-5">
       <h1>Buscador de Bebidas</h1>
     </header>
@@ -14,8 +14,7 @@ function App() {
     <Container className='mt-5'>
       <Formulario/>
     </Container>
-   
-   </categoriasProvider>
+   </CategoriasProvider>
   )
 }
 
