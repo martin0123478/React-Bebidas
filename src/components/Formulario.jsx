@@ -1,11 +1,30 @@
-import {Button,Form,Row,Col} from 'react-bootstrap'
+import {Button,Form,Row,Col,Alert} from 'react-bootstrap'
 import useCategorias from '../hooks/useCategorias'
+import { useState } from 'react'
 const Formulario = () => {
 
     const {categorias} = useCategorias()
+    const [busqueda,setBusqueda] = useState({
+        nombre:'',
+        categoria:''
+    })
+    const [alerta,setAlerta] = useState('')
+
+    const handleSubmit = e =>{
+        e.preventDefault()
+        if(Object.values(busqueda).includes('')){
+            setAlerta('Todos los campos son obligatorios')
+            return
+
+        }
+        setAlerta('')
+    }
   return (
     <div>
-      <Form>
+      <Form
+        onSubmit={handleSubmit}
+      >
+        {alerta && <Alert variant='danger' className='text-center'>{alerta}</Alert>}
         <Row>
             <Col md={6}>
                 <Form.Group className='mb-3'>
@@ -14,6 +33,11 @@ const Formulario = () => {
                         type='text'
                         placeholder='Ej: Tequila, Vodka'
                         name='nombre'
+                        value={busqueda.nombre}
+                        onChange={e => setBusqueda({
+                            ...busqueda,
+                            [e.target.name]:e.target.value
+                        })}
                     />
 
                     
@@ -23,7 +47,13 @@ const Formulario = () => {
                 <Form.Group className='mb-3'>
                     <Form.Label>Categotia Bebida</Form.Label>
                     <Form.Select
-                    name='categoria'>
+                    name='categoria'
+                    value={busqueda.categoria}
+                        onChange={e => setBusqueda({
+                            ...busqueda,
+                            [e.target.name]:e.target.value
+                        })}
+                    >
                         <option>-Selecciona Categoria-</option>
                         {categorias.map(categoria=>(
                             <option
@@ -44,6 +74,7 @@ const Formulario = () => {
                 <Button
                     variant='danger'
                     className='text-uppercase w-100'
+                    type='submit'
                 >
                     Buscar Bebidas
                 </Button>
